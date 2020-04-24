@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <title th:replace="${title}">title</title>
+    <link rel="stylesheet" th:href="@{https://www.layuicdn.com/layui/css/layui.css}"/>
+</head>
+
+<body>
+</body>
+<th:block th:fragment="script">
+    <script>
+        layui.use('layer', function(){
+            var layer = layui.layer;
+        });
+
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+    </script>
+</th:block>
+</html>

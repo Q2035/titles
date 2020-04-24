@@ -1,0 +1,14 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc://192.168.17.132:3306/titles?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    initialization-mode: always
+    type: com.zaxxer.hikari.HikariDataSource
+logging:
+  file:
+    path: D:\\temp\\log
+    name: title.log
