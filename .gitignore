@@ -29,10 +29,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/out/
 /.mvn/
-/.idea/
+/blog.iml
 /HELP.md
-/mvnw.cmd
+*.gz
+*.log
 /mvnw
-/title.iml
+/mvnw.cmd
+/src/main/resources/META-INF/
 /src/test/
