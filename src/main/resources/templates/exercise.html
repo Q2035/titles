@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(~{::title})">
-    <title>About</title>
+    <title>Exercise</title>
 </head>
 
 <body style="background-color: #F2F2F2">
-<br />
-    <div class="layui-container">
+
+<div class="layui-container">
 
         <div class="layui-row">
             <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
@@ -15,33 +15,14 @@
                 <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
                 <form class="layui-form" action="">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">username</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="username" required lay-verify="required" placeholder="username" autocomplete="off" class="layui-input">
+                        <label class="layui-form-label">复选框</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="like[write]" title="写作">
+                            <input type="checkbox" name="like[read]" title="阅读" checked>
+                            <input type="checkbox" name="like[dai]" title="发呆">
                         </div>
-                        <div class="layui-form-mid layui-word-aux">辅助文字</div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">password</label>
-                        <div class="layui-input-inline">
-                            <input type="password" name="password" required lay-verify="required" placeholder="password" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">辅助文字</div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">密码框</label>
-                        <div class="layui-input-inline">
-                            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">辅助文字</div>
                     </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">开关</label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="switch" lay-skin="switch">
-                        </div>
-                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">单选框</label>
                         <div class="layui-input-block">
@@ -71,24 +52,43 @@
                 </div>
             </div>
         </div>
-    </div>
-
-</body>
-
-<!--/*/<th:block th:replace="fragments :: script">/*/-->
-<!--/*/</th:block>/*/-->
-<script>
-    //Demo
-    layui.use('form', function(){
-        var form = layui.form;
-
-        //监听提交
-        form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
+</div>
+    <!--/*/<th:block th:replace="fragments :: script">/*/-->
+    <!--/*/</th:block>/*/-->
+    <script>
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.msg("HIHIHI")
         });
-    });
 
-    layer.msg("HIHIHI")
-</script>
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+
+        layui.use('element', function(){
+            var element = layui.element;
+
+            //一些事件监听
+            element.on('tab(demo)', function(data){
+                console.log(data);
+            });
+        })
+
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+    </script>
+</body>
 </html>

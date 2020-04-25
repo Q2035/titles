@@ -8,20 +8,6 @@
 <body>
 </body>
 <th:block th:fragment="script">
-    <script>
-        layui.use('layer', function(){
-            var layer = layui.layer;
-        });
-
-        layui.use('form', function(){
-            var form = layui.form;
-
-            //监听提交
-            form.on('submit(formDemo)', function(data){
-                layer.msg(JSON.stringify(data.field));
-                return false;
-            });
-        });
-    </script>
+    <script src="https://www.layuicdn.com/layui/layui.js" th:src="@{https://www.layuicdn.com/layui/layui.js}"></script>
 </th:block>
 </html>

@@ -16,8 +16,21 @@ public class IndexController {
 
     @GetMapping({"/","/index"})
     public String index(){
-
         return "index";
     }
 
+    @GetMapping("/register")
+    public String register(){
+        return "register";
+    }
+
+    @GetMapping("/exercise")
+    public String exercise(){
+        return "exercise";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 }

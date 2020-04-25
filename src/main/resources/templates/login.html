@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(~{::title})">
-    <title>About</title>
+    <title>Login</title>
 </head>
 
 <body style="background-color: #F2F2F2">
@@ -15,9 +15,36 @@
             <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
             <form class="layui-form" action="">
                 <div class="layui-form-item">
+                    <label class="layui-form-label">username</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" required lay-verify="required" placeholder="username" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">password</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" required lay-verify="required" placeholder="password" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码框</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开关</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="switch" lay-skin="switch">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">单选框</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="sex" value="男" title="un">
                         <input type="radio" name="sex" value="男" title="男">
                         <input type="radio" name="sex" value="女" title="女" checked>
                     </div>
@@ -25,7 +52,8 @@
 
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">开始做题</button>
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
             </form>
@@ -36,14 +64,15 @@
                 <div class="layui-card">
                     <div class="layui-card-header">卡片面板</div>
                     <div class="layui-card-body">
-                        <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/login" th:href="@{/login}">login</a><br>
-                        <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a>
+                        卡片式面板面板通常用于非白色背景色的主体内<br>
+                        从而映衬出边框投影
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 
 <!--/*/<th:block th:replace="fragments :: script">/*/-->
