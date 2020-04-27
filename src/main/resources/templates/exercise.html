@@ -10,7 +10,7 @@
 
         <div class="layui-row">
             <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
-                <div class="grid-demo layui-bg-green">移动：4/12 | 平板：7/12 | 桌面：8/12</div>
+                <div class="grid-demo layui-bg-green">|</div>
                 <br />
                 <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
                 <form class="layui-form" action="">
@@ -33,20 +33,28 @@
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">submit</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">reset</button>
                         </div>
                     </div>
                 </form>
             </div>
+
             <div class="layui-col-xs4 layui-col-sm5 layui-col-md4">
-                <div class="grid-demo layui-bg-black">移动：4/12 | 平板：5/12 | 桌面：4/12</div>
+                <div class="grid-demo layui-bg-black">|</div>
                 <div style="padding: 20px; background-color: #F2F2F2;">
                     <div class="layui-card">
-                        <div class="layui-card-header">卡片面板</div>
-                        <div class="layui-card-body">
-                            卡片式面板面板通常用于非白色背景色的主体内<br>
-                            从而映衬出边框投影
+                        <div class="layui-card-header">Can I help you?</div>
+                        <div class="layui-card-body" th:if="${session.user} != null">
+                            <th:block>
+                                <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/user/home" th:href="@{/user/home}">home</a><br>
+                            </th:block>
+                        </div>
+                        <div class="layui-card-body" th:if="${session.user} == null">
+                            <th:block>
+                                <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/login" th:href="@{/login}">login</a><br>
+                                <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a>
+                            </th:block>
                         </div>
                     </div>
                 </div>

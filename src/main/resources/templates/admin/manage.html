@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(~{::title})">
-    <title>Home</title>
+    <title>Manage</title>
 </head>
 
 <body style="background-color: #F2F2F2">
@@ -12,7 +12,7 @@
         <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
             <div class="grid-demo layui-bg-green">|</div>
             <br />
-            <blockquote class="layui-elem-quote">The topic you've ever done</blockquote>
+            <blockquote class="layui-elem-quote">Registered users</blockquote>
             <table class="layui-table" lay-skin="row">
                 <colgroup>
                     <col width="150">
@@ -22,20 +22,19 @@
                 <thead>
                 <tr>
                     <th>count</th>
-                    <th>time</th>
-                    <th>title</th>
+                    <th>id</th>
+                    <th>username</th>
+                    <th>email</th>
+                    <th>delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2016-11-29</td>
-                    <td>人生就像是一场修行</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2016-11-28</td>
-                    <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                <tr th:each="u,step: ${users}">
+                    <td th:text="${step.count}">1</td>
+                    <td th:text="${u.id}">1</td>
+                    <td th:text="${u.username}">1</td>
+                    <td th:text="${u.email}">2016-11-29</td>
+                    <td><a th:href="@{/admin/delete/{id}(id=${u.id})}">delete</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -46,9 +45,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
                     <div class="layui-card-body">
-                        <div th:if="${session.user.roles == 'admin'}">
-                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/admin/index" th:href="@{/admin/manage}">admin index</a><br>
-                        </div>
+                        <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/admin/manager" th:href="@{/admin/manage}">manage</a><br>
                         <i class="layui-icon layui-icon-logout"></i>&nbsp;&nbsp;<a href="/user/logout" th:href="@{/user/logout}">logout</a><br>
                     </div>
                 </div>

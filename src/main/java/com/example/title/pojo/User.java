@@ -8,8 +8,8 @@ public class User {
     private Integer id;
     private String username;
     private String password;
-    private String nickname;
     private String email;
+    private String roles;
 
     @Override
     public String toString() {
@@ -17,9 +17,17 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
                 ", email='" + email + '\'' +
+                ", roles='" + roles + '\'' +
                 '}';
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public Integer getId() {
@@ -46,14 +54,6 @@ public class User {
         this.password = password;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -61,4 +61,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

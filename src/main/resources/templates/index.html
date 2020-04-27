@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::head(~{::title})">
-    <title>About</title>
+    <title>Index</title>
 </head>
 
 <body style="background-color: #F2F2F2">
@@ -10,14 +10,14 @@
 
     <div class="layui-row">
         <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
-            <div class="grid-demo layui-bg-green">移动：4/12 | 平板：7/12 | 桌面：8/12</div>
+            <div class="grid-demo layui-bg-green">|</div>
             <br />
-            <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+            <blockquote class="layui-elem-quote">选择相应的题目类型</blockquote>
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">单选框</label>
+                    <label class="layui-form-label">题目类型</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="sex" value="男" title="un">
+                        <input type="radio" name="sex" value="un" title="un">
                         <input type="radio" name="sex" value="男" title="男">
                         <input type="radio" name="sex" value="女" title="女" checked>
                     </div>
@@ -31,10 +31,10 @@
             </form>
         </div>
         <div class="layui-col-xs4 layui-col-sm5 layui-col-md4">
-            <div class="grid-demo layui-bg-black">移动：4/12 | 平板：5/12 | 桌面：4/12</div>
+            <div class="grid-demo layui-bg-black">|</div>
             <div style="padding: 20px; background-color: #F2F2F2;">
                 <div class="layui-card">
-                    <div class="layui-card-header">卡片面板</div>
+                    <div class="layui-card-header">Can I help you?</div>
                     <div class="layui-card-body">
                         <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/login" th:href="@{/login}">login</a><br>
                         <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a>

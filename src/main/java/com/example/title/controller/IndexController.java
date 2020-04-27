@@ -1,9 +1,12 @@
 package com.example.title.controller;
 
+import com.example.title.pojo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @Create: 24/04/2020 18:45
@@ -30,7 +33,11 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user != null){
+            return "user/home";
+        }
         return "login";
     }
 }

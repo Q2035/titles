@@ -10,62 +10,38 @@
 
     <div class="layui-row">
         <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
-            <div class="grid-demo layui-bg-green">移动：4/12 | 平板：7/12 | 桌面：8/12</div>
+            <div class="grid-demo layui-bg-green">|</div>
             <br />
-            <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
+            <blockquote class="layui-elem-quote">please input the username and password</blockquote>
             <form class="layui-form" action="">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">username</label>
+                    <label class="layui-form-label">username:</label>
                     <div class="layui-input-inline">
                         <input type="text" name="username" required lay-verify="required" placeholder="username" autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">password</label>
+                    <label class="layui-form-label">password:</label>
                     <div class="layui-input-inline">
                         <input type="password" name="password" required lay-verify="required" placeholder="password" autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">密码框</label>
-                    <div class="layui-input-inline">
-                        <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label">开关</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="switch" lay-skin="switch">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">单选框</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="sex" value="男" title="男">
-                        <input type="radio" name="sex" value="女" title="女" checked>
-                    </div>
-                </div>
-
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">submit</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                        <button class="layui-btn layui-btn-primary" onclick="window.history.go(-1)">back</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="layui-col-xs4 layui-col-sm5 layui-col-md4">
-            <div class="grid-demo layui-bg-black">移动：4/12 | 平板：5/12 | 桌面：4/12</div>
+            <div class="grid-demo layui-bg-black">|</div>
             <div style="padding: 20px; background-color: #F2F2F2;">
                 <div class="layui-card">
-                    <div class="layui-card-header">卡片面板</div>
+                    <div class="layui-card-header">Can I help you?</div>
                     <div class="layui-card-body">
-                        卡片式面板面板通常用于非白色背景色的主体内<br>
-                        从而映衬出边框投影
+                        <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a><br>
                     </div>
                 </div>
             </div>
@@ -78,17 +54,37 @@
 <!--/*/<th:block th:replace="fragments :: script">/*/-->
 <!--/*/</th:block>/*/-->
 <script>
-    //Demo
+
     layui.use('form', function(){
         var form = layui.form;
 
         //监听提交
         form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
+            layer.msg("wait..")
+            $.ajax({
+                type: 'post',
+                url: '/user/authenticate',
+                data: JSON.stringify(data.field),
+                dataType: 'json',
+                success: function (res) {
+                    if (res.success){
+                        window.location.href="/user/home"
+                        return;
+                    }else {
+                        layer.msg(res.message)
+                    }
+                }
+            })
             return false;
         });
     });
 
-    layer.msg("HIHIHI")
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        if ((document.referrer).endsWith("/register")){
+            layer.msg("Register successfully, please login.");
+        }
+    });
+
 </script>
 </html>
