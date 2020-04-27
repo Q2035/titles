@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.title.mapper.TitleMapper">
+
+<!--    新建title表-->
+    <select id="createTitleTable" parameterType="string">
+        create table title_${synopsis}(
+            id int primary key auto_increment,
+            topic_description varchar(255),
+            options varchar(255),
+            answer varchar(20),
+            topic_type smallint,
+            type varchar(20) default null,
+            note varchar(20) default null,
+            count_of_wrong int default 0,
+            count_of_done int default 0
+        )
+    </select>
+
+
+<!--    插入Title-->
+    <insert id="setTitle">
+        insert into title_${type.synopsis}
+        values(
+               default,
+               #{title.topicDescription},
+               #{title.options},
+               #{title.answer},
+               #{title.topicType},
+               #{title.type},
+               #{title.note},
+               default,
+               default
+              );
+    </insert>
+
+<!--    获取所有的TitleType-->
+    <select id="getAllTitleTypes" resultType="TitleType">
+        select * from title_type
+    </select>
+
+<!--    插入TitleType-->
+    <insert id="setTitleType" parameterType="TitleType">
+        insert into title_type values(default,#{synopsis},#{description})
+    </insert>
+
+</mapper>

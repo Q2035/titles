@@ -47,13 +47,13 @@
                         <div class="layui-card-header">Can I help you?</div>
                         <div class="layui-card-body" th:if="${session.user} != null">
                             <th:block>
-                                <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/user/home" th:href="@{/user/home}">home</a><br>
+                                <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/user/home" th:href="@{/titles/user/home}">home</a><br>
                             </th:block>
                         </div>
                         <div class="layui-card-body" th:if="${session.user} == null">
                             <th:block>
-                                <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/login" th:href="@{/login}">login</a><br>
-                                <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a>
+                                <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br>
+                                <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a>
                             </th:block>
                         </div>
                     </div>

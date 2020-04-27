@@ -27,7 +27,7 @@ import java.net.URLDecoder;
  * @Author: Q
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/titles/user")
 public class UserController {
 
     @Autowired
@@ -104,6 +104,5 @@ public class UserController {
         }
         return commonResult;
     }
-
 
 }

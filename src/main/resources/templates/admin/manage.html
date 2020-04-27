@@ -34,7 +34,7 @@
                     <td th:text="${u.id}">1</td>
                     <td th:text="${u.username}">1</td>
                     <td th:text="${u.email}">2016-11-29</td>
-                    <td><a th:href="@{/admin/delete/{id}(id=${u.id})}">delete</a></td>
+                    <td><a th:href="@{/titles/admin/delete/{id}(id=${u.id})}">delete</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -45,8 +45,9 @@
                 <div class="layui-card">
                     <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
                     <div class="layui-card-body">
-                        <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/admin/manager" th:href="@{/admin/manage}">manage</a><br>
-                        <i class="layui-icon layui-icon-logout"></i>&nbsp;&nbsp;<a href="/user/logout" th:href="@{/user/logout}">logout</a><br>
+                        <i class="layui-icon layui-icon-read"></i>&nbsp;&nbsp;<a href="/titles/" th:href="@{/titles/}">Let's start!</a><br>
+                        <i class="layui-icon layui-icon-add-1"></i>&nbsp;&nbsp;<a href="/titles/admin/import" th:href="@{/titles/admin/import}">import titles.</a><br>
+                        <i class="layui-icon layui-icon-logout"></i>&nbsp;&nbsp;<a href="/titles/user/logout" th:href="@{/titles/user/logout}">logout</a><br>
                     </div>
                 </div>
             </div>

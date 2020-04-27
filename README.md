@@ -31,7 +31,7 @@ POJO:
     - id
     - type 题目类型
     - titleId 题目ID
-    - isRight 题目是否做对了
+    - isRight 题目是否做对
  
  - Title
     - id
@@ -42,3 +42,8 @@ POJO:
     - note 备注信息
     - countOfWrong 做错统计
     - countOfDo 做题统计
+
+2020.4.27
+
+    今天实现了将txt文件文件内容读取入数据库；
+    完善了各个用户界面；

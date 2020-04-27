@@ -41,7 +41,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">Can I help you?</div>
                     <div class="layui-card-body">
-                        <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a><br>
+                        <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a><br>
                     </div>
                 </div>
             </div>
@@ -63,12 +63,12 @@
             layer.msg("wait..")
             $.ajax({
                 type: 'post',
-                url: '/user/authenticate',
+                url: '/titles/user/authenticate',
                 data: JSON.stringify(data.field),
                 dataType: 'json',
                 success: function (res) {
                     if (res.success){
-                        window.location.href="/user/home"
+                        window.location.href="/titles/user/home"
                         return;
                     }else {
                         layer.msg(res.message)

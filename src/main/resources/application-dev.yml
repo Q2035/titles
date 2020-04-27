@@ -12,6 +12,11 @@ logging:
   file:
     path: D:\\temp\\log
     name: title.log
+  level:
+    root: info
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.title.pojo

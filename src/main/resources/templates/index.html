@@ -12,32 +12,52 @@
         <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
             <div class="grid-demo layui-bg-green">|</div>
             <br />
-            <blockquote class="layui-elem-quote">选择相应的题目类型</blockquote>
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">题目类型</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="sex" value="un" title="un">
-                        <input type="radio" name="sex" value="男" title="男">
-                        <input type="radio" name="sex" value="女" title="女" checked>
+            <th:block>
+                <blockquote class="layui-elem-quote">Choose the type.</blockquote>
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">topic type</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value="un" title="un">
+                            <input type="radio" name="sex" value="男" title="男">
+                            <input type="radio" name="sex" value="女" title="女" checked>
+                        </div>
                     </div>
-                </div>
 
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">开始做题</button>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">method type</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="typeMethod" title="Only Single Choice" value="single" checked>
+                            <input type="radio" name="typeMethod" title="Multiple Choice Only" value="multiple">
+                            <input type="radio" name="typeMethod" title="Only Judgment Questions" value="judgment">
+                        </div>
                     </div>
-                </div>
-            </form>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">Let's start!</button>
+                        </div>
+                    </div>
+                </form>
+            </th:block>
         </div>
         <div class="layui-col-xs4 layui-col-sm5 layui-col-md4">
             <div class="grid-demo layui-bg-black">|</div>
             <div style="padding: 20px; background-color: #F2F2F2;">
                 <div class="layui-card">
-                    <div class="layui-card-header">Can I help you?</div>
-                    <div class="layui-card-body">
-                        <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/login" th:href="@{/login}">login</a><br>
-                        <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/register" th:href="@{/register}">register</a>
+                    <div th:if="${session.user != null}">
+                        <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
+                        <div class="layui-card-body">
+                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/user/home" th:href="@{/titles/user/home}">home</a><br>
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/user/logout" th:href="@{/titles/user/logout}">logout</a><br>
+                        </div>
+                    </div>
+                    <div th:if="${session.user == null}">
+                        <div class="layui-card-header" th:text="| Can I help you?|"></div>
+                        <div class="layui-card-body">
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br>
+                            <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,7 +72,6 @@
     //Demo
     layui.use('form', function(){
         var form = layui.form;
-
         //监听提交
         form.on('submit(formDemo)', function(data){
             layer.msg(JSON.stringify(data.field));
@@ -60,6 +79,5 @@
         });
     });
 
-    layer.msg("HIHIHI")
 </script>
 </html>

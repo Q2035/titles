@@ -47,9 +47,10 @@
                     <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
                     <div class="layui-card-body">
                         <div th:if="${session.user.roles == 'admin'}">
-                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/admin/index" th:href="@{/admin/manage}">admin index</a><br>
+                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/admin/index" th:href="@{/titles/admin/manage}">admin index</a><br>
                         </div>
-                        <i class="layui-icon layui-icon-logout"></i>&nbsp;&nbsp;<a href="/user/logout" th:href="@{/user/logout}">logout</a><br>
+                        <i class="layui-icon layui-icon-read"></i>&nbsp;&nbsp;<a href="/titles/" th:href="@{/titles/}">Let's start!</a><br>
+                        <i class="layui-icon layui-icon-logout"></i>&nbsp;&nbsp;<a href="/titles/user/logout" th:href="@{/titles/user/logout}">logout</a><br>
                     </div>
                 </div>
             </div>

@@ -5,11 +5,21 @@ public class Title {
     private String topicDescription;
     private String options;
     private String answer;
+//    单选，多选,以及判断（分别使用1，2，3表示）
+    private Integer topicType;
 //    类型：毛概、马原
     private String type;
     private String note;
     private Integer countOfWrong;
     private Integer countOfDone;
+
+    public Integer getTopicType() {
+        return topicType;
+    }
+
+    public void setTopicType(Integer topicType) {
+        this.topicType = topicType;
+    }
 
     public Integer getId() {
         return id;
