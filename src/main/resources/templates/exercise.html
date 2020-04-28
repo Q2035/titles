@@ -12,31 +12,31 @@
             <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
                 <div class="grid-demo layui-bg-green">|</div>
                 <br />
-                <blockquote class="layui-elem-quote">注意：下述演示中的颜色只是做一个区分作用，并非栅格内置。</blockquote>
                 <form class="layui-form" action="">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">复选框</label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="like[write]" title="写作">
-                            <input type="checkbox" name="like[read]" title="阅读" checked>
-                            <input type="checkbox" name="like[dai]" title="发呆">
+                    <th:block th:each="title:${titles}">
+                        <blockquote class="layui-elem-quote" th:text="${title.getTopicDescription()}"></blockquote>
+                        <div class="layui-form-item" th:if="${methodType == 'multiple'}">
+                            <div class="layui-input-block">
+                                <input type="checkbox" th:each="option,step:${options}" th:title="${option}" th:value="${step.count}" name="answer" title="写作" checked>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">单选框</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="sex" value="男" title="男">
-                            <input type="radio" name="sex" value="女" title="女" checked>
+                        <div class="layui-form-item" th:if="${methodType == 'single'}">
+                            <div class="layui-input-block">
+                                <div th:each="option,step:${options}">
+                                    <input type="radio" name="answer" checked th:value="${step.count}" th:title="|${step.count}.${option}|" value="男" title="男">
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <button class="layui-btn" lay-submit lay-filter="formDemo">submit</button>
-                            <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <a th:href="@{/titles/exercise/{methodType}(methodType=${methodType})}" hidden id="beforeBtn"></a>
+                                <button class="layui-btn" lay-submit lay-filter="formDemo">submit</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                            </div>
                         </div>
-                    </div>
+                    </th:block>
                 </form>
             </div>
 
@@ -75,6 +75,7 @@
             //监听提交
             form.on('submit(formDemo)', function(data){
                 layer.msg(JSON.stringify(data.field));
+                window.location.href= $('#beforeBtn').attr("href");
                 return false;
             });
         });
@@ -87,16 +88,6 @@
                 console.log(data);
             });
         })
-
-        layui.use('form', function(){
-            var form = layui.form;
-
-            //监听提交
-            form.on('submit(formDemo)', function(data){
-                layer.msg(JSON.stringify(data.field));
-                return false;
-            });
-        });
     </script>
 </body>
 </html>

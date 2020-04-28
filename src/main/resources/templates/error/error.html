@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(~{::title})">
+    <title>Index</title>
+</head>
+
+<body onload="document.getElementById('btn01').click()" style="background-color: #F2F2F2">
+<br />
+<div class="layui-container">
+
+    <div class="layui-row">
+        <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
+            <div class="grid-demo layui-bg-green">|</div>
+            <br />
+            <th:block>
+                <blockquote class="layui-elem-quote">ERROR</blockquote>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend th:text="${errorMsg}">引用区块 - 一般风格</legend>
+                </fieldset>
+                <div hidden="hidden">
+                    <button hidden id="btn01" data-method="notice" class="layui-btn">示范一个公告层</button>
+                </div>
+            </th:block>
+        </div>
+        <div class="layui-col-xs4 layui-col-sm5 layui-col-md4">
+            <div class="grid-demo layui-bg-black">|</div>
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-card">
+                    <div th:if="${session.user != null}">
+                        <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
+                        <div class="layui-card-body">
+                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/user/home" th:href="@{/titles/user/home}">home</a><br>
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/user/logout" th:href="@{/titles/user/logout}">logout</a><br>
+                        </div>
+                    </div>
+                    <div th:if="${session.user == null}">
+                        <div class="layui-card-header" th:text="| Can I help you?|"></div>
+                        <div class="layui-card-body">
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br>
+                            <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!--/*/<th:block th:replace="fragments :: script">/*/-->
+<!--/*/</th:block>/*/-->
+<script>
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        //触发事件
+        var active = {
+            notice: function(){
+                //示范一个公告层
+                layer.open({
+                    type: 1
+                    ,title: false //不显示标题栏
+                    ,closeBtn: false
+                    ,area: '300px;'
+                    ,shade: 0.8
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['返回首页', '拒绝']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？<br>刚刚发生了一个错误<br><br>可能是你干的，也可能是我干的<br><br>为了不影响使用请重新返回首页<br><br>b（￣▽￣）d　</div>'
+                    ,success: function(layero){
+                        var btn = layero.find('.layui-layer-btn');
+                        btn.find('.layui-layer-btn0').attr({
+                            href: '/titles/'
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+    });
+</script>
+</html>

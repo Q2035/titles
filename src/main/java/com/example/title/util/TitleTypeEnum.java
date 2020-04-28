@@ -6,7 +6,7 @@ package com.example.title.util;
  */
 public enum TitleTypeEnum {
 
-    SINGLE(1),MULTIPLE(2),JUDGEMENT(3);
+    SINGLE(1),MULTIPLE(2),JUDGEMENT(3),EXAM(4),RANDOM(5);
 
     Integer type;
 

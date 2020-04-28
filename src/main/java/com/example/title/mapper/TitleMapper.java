@@ -23,7 +23,11 @@ public interface TitleMapper {
      */
     void setTitle(@Param("title") Title title, @Param("type") TitleType type);
 
+    Title getTitleById(@Param("id") Integer id,@Param("synopsis") String synopsis);
+
     List<TitleType> getAllTitleTypes();
+
+    TitleType getTitleTypeBySynopsis(String synopsis);
 
     void setTitleType(TitleType type);
 

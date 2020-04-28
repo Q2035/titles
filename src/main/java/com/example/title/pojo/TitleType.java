@@ -13,6 +13,16 @@ public class TitleType {
 //    这个是描述 eg.毛概
     private String description;
 
+    private Integer titleCount;
+
+    public Integer getTitleCount() {
+        return titleCount;
+    }
+
+    public void setTitleCount(Integer titleCount) {
+        this.titleCount = titleCount;
+    }
+
     public Integer getId() {
         return id;
     }

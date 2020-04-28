@@ -34,9 +34,18 @@
               );
     </insert>
 
+<!--    通过ID获取Title-->
+    <select id="getTitleById" resultType="Title">
+        select * from title_${synopsis} where id = #{id}
+    </select>
+
 <!--    获取所有的TitleType-->
     <select id="getAllTitleTypes" resultType="TitleType">
         select * from title_type
+    </select>
+
+    <select id="getTitleTypeBySynopsis" parameterType="string" resultType="TitleType">
+        select * from title_type where synopsis = #{synopsis}
     </select>
 
 <!--    插入TitleType-->

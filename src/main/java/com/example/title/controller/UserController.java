@@ -51,8 +51,7 @@ public class UserController {
     @PostMapping("/authenticate")
     @ResponseBody
     public CommonResult authenticate(@RequestBody String reqUser,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response){
+                                     HttpServletRequest request){
         User user = null;
         try {
             String decode = URLDecoder.decode(reqUser,"utf-8");

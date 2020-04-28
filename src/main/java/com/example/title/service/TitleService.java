@@ -2,6 +2,7 @@ package com.example.title.service;
 
 import com.example.title.pojo.Title;
 import com.example.title.pojo.TitleType;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,11 +14,16 @@ public interface TitleService {
 
     void createTitleTable(String synopsis);
 
-//    针对Title
+//    插入Title
     void setTitle(Title title,TitleType type);
+
+//    通过ID获取Title
+Title getTitleById(Integer id,String synopsis);
 
 //    针对TitleType
     List<TitleType> getAllTitleTypes();
+
+    TitleType getTitleTypeBySynopsis(String synopsis);
 
     void setTitleType(TitleType type);
 }

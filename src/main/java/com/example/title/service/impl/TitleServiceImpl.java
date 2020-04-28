@@ -30,8 +30,18 @@ public class TitleServiceImpl implements TitleService {
     }
 
     @Override
+    public Title getTitleById(Integer id, String synopsis) {
+        return titleMapper.getTitleById(id,synopsis);
+    }
+
+    @Override
     public List<TitleType> getAllTitleTypes() {
         return titleMapper.getAllTitleTypes();
+    }
+
+    @Override
+    public TitleType getTitleTypeBySynopsis(String synopsis) {
+        return titleMapper.getTitleTypeBySynopsis(synopsis);
     }
 
     @Override

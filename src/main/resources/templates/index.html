@@ -14,13 +14,11 @@
             <br />
             <th:block>
                 <blockquote class="layui-elem-quote">Choose the type.</blockquote>
-                <form class="layui-form" action="">
+                <form class="layui-form" action="/titles/exercise" th:action="@{/titles/exercise}">
                     <div class="layui-form-item">
                         <label class="layui-form-label">topic type</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="sex" value="un" title="un">
-                            <input type="radio" name="sex" value="男" title="男">
-                            <input type="radio" name="sex" value="女" title="女" checked>
+                            <input th:each="type:${types}" th:value="${type.synopsis}" th:title="${type.description}" type="radio" name="type" value="女" title="女" checked>
                         </div>
                     </div>
 
@@ -30,6 +28,8 @@
                             <input type="radio" name="typeMethod" title="Only Single Choice" value="single" checked>
                             <input type="radio" name="typeMethod" title="Multiple Choice Only" value="multiple">
                             <input type="radio" name="typeMethod" title="Only Judgment Questions" value="judgment">
+                            <input type="radio" name="typeMethod" title="Examination" value="exam">
+                            <input type="radio" name="typeMethod" title="Random" value="random">
                         </div>
                     </div>
 
@@ -74,8 +74,8 @@
         var form = layui.form;
         //监听提交
         form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
+            console.log(JSON.stringify(data.field));
+            return true;
         });
     });
 
