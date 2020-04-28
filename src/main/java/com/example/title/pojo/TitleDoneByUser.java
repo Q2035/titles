@@ -6,9 +6,19 @@ package com.example.title.pojo;
  */
 public class TitleDoneByUser {
     private Integer id;
+//    synopsis
     private String type;
-    private Integer typeId;
+    private Integer titleID;
     private boolean isRight;
+
+    public TitleDoneByUser() {
+    }
+
+    public TitleDoneByUser(String type, Integer titleID, boolean isRight) {
+        this.type = type;
+        this.titleID = titleID;
+        this.isRight = isRight;
+    }
 
     public Integer getId() {
         return id;
@@ -26,12 +36,12 @@ public class TitleDoneByUser {
         this.type = type;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getTitleID() {
+        return titleID;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setTitleID(Integer titleID) {
+        this.titleID = titleID;
     }
 
     public boolean isRight() {

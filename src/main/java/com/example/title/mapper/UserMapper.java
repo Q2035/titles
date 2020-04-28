@@ -1,5 +1,6 @@
 package com.example.title.mapper;
 
+import com.example.title.pojo.TitleDoneByUser;
 import com.example.title.pojo.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -30,4 +31,9 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
     User getUserById(Integer id);
+
+//    -----------处理user_done表-------------
+
+    @Insert("insert into user_done values(default,#{type},#{titleID},${isRight}")
+    void setUserDone(TitleDoneByUser titleDoneByUser);
 }

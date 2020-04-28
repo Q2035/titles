@@ -35,7 +35,7 @@ public class UserController {
 
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     @RequestMapping("/home")
     public String home(){
@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session){
         session.removeAttribute("user");
-        return "index";
+        return "forward:/titles/";
     }
 
     @PostMapping("/authenticate")

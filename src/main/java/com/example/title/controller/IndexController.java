@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static com.example.title.util.TitleTypeEnum.*;
-
 /**
  * @Create: 24/04/2020 18:45
  * @Author: Q
@@ -100,7 +98,9 @@ public class IndexController {
             return "error/error";
         }
         logger.info("user {} choose the {}",request.getRemoteAddr(),type);
-//        将用户的选择存入Cookie
+//        将用户的选择存入Cookie以及Session
+        HttpSession session = request.getSession();
+        session.setAttribute(CookieInfo.synopsis,type);
 //        题库类型（mao、ma）
         Cookie synopsisCookie = new Cookie(CookieInfo.synopsis,type);
 //        Cookie有效期设置为30分钟

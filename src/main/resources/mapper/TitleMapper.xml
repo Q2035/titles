@@ -34,6 +34,14 @@
               );
     </insert>
 
+    <update id="updateTitle">
+        update title_${synopsis} set
+            note = #{title.note},
+            count_of_wrong = #{title.countOfWrong},
+            count_of_done = #{title.countOfDone}
+        where id = #{title.id}
+    </update>
+
 <!--    通过ID获取Title-->
     <select id="getTitleById" resultType="Title">
         select * from title_${synopsis} where id = #{id}

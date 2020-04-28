@@ -12,27 +12,50 @@
             <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
                 <div class="grid-demo layui-bg-green">|</div>
                 <br />
+                <blockquote class="layui-elem-quote">Hello,World.</blockquote>
+                <br />
+                <br />
                 <form class="layui-form" action="">
                     <th:block th:each="title:${titles}">
-                        <blockquote class="layui-elem-quote" th:text="${title.getTopicDescription()}"></blockquote>
-                        <div class="layui-form-item" th:if="${methodType == 'multiple'}">
-                            <div class="layui-input-block">
-                                <input type="checkbox" th:each="option,step:${options}" th:title="${option}" th:value="${step.count}" name="answer" title="写作" checked>
-                            </div>
-                        </div>
+                        <fieldset class="layui-elem-field">
+                            <input th:value="${title.getId()}" hidden="hidden" id="titleId"/>
+                            <legend th:text="${title.getTopicDescription()}">字段集区块 - 默认风格</legend>
+                            <div class="layui-field-box">
 
-                        <div class="layui-form-item" th:if="${methodType == 'single'}">
-                            <div class="layui-input-block">
-                                <div th:each="option,step:${options}">
-                                    <input type="radio" name="answer" checked th:value="${step.count}" th:title="|${step.count}.${option}|" value="男" title="男">
+                                <!--                                判断-->
+                                <div class="layui-form-item" th:if="${methodType == 'judgement'}">
+                                    <div class="layui-input-block" style="margin-inline: 20px;">
+                                        <input type="radio" name="answer" value="1" title="true">
+                                        <input type="radio" name="answer" value="0" title="false">
+                                    </div>
                                 </div>
+
+                                <!--                                多选-->
+                                <div class="layui-form-item" th:if="${methodType == 'multiple'}">
+                                    <div class="layui-input-block" style="margin-inline: 20px;">
+                                        <div th:each="option,step:${options}">
+                                            <input type="checkbox" name="answer" th:value="${step.count}" th:title="${option}" value="answer" title="男">
+                                        </div>
+                                    </div>
+                                </div>
+
+<!--                                单选-->
+                                <div class="layui-form-item" th:if="${methodType == 'single'}">
+                                    <div class="layui-input-block" style="margin-inline: 20px;">
+                                        <div th:each="option,step:${options}">
+                                            <input type="radio" name="answer" th:value="${step.count}" th:title="${option}" value="answer" title="男">
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
+                        </fieldset>
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <a th:href="@{/titles/exercise/{methodType}(methodType=${methodType})}" hidden id="beforeBtn"></a>
-                                <button class="layui-btn" lay-submit lay-filter="formDemo">submit</button>
+                                <button class="layui-btn" lay-submit lay-filter="submit">submit</button>
+                                <button class="layui-btn" lay-submit lay-filter="next" th:if="${methodType != 'exam'}">next</button>
                                 <button type="reset" class="layui-btn layui-btn-primary">reset</button>
                             </div>
                         </div>
@@ -44,17 +67,20 @@
                 <div class="grid-demo layui-bg-black">|</div>
                 <div style="padding: 20px; background-color: #F2F2F2;">
                     <div class="layui-card">
-                        <div class="layui-card-header">Can I help you?</div>
-                        <div class="layui-card-body" th:if="${session.user} != null">
-                            <th:block>
+                        <div th:if="${session.user != null}">
+                            <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
+                            <div class="layui-card-body">
                                 <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/user/home" th:href="@{/titles/user/home}">home</a><br>
-                            </th:block>
+                                <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/user/logout" th:href="@{/titles/user/logout}">logout</a><br>
+                            </div>
                         </div>
-                        <div class="layui-card-body" th:if="${session.user} == null">
-                            <th:block>
-                                <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br>
-                                <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a>
-                            </th:block>
+                        <div th:if="${session.user == null}">
+                            <div class="layui-card-header" th:text="| Can I help you?|"></div>
+                            <div class="layui-card-body">
+                                <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/" th:href="@{/titles/}">reselect</a><br/>
+                                <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br/>
+                                <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a><br/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,18 +90,45 @@
     <!--/*/<th:block th:replace="fragments :: script">/*/-->
     <!--/*/</th:block>/*/-->
     <script>
-        layui.use('layer', function(){
-            var layer = layui.layer;
-            layer.msg("HIHIHI")
-        });
-
         layui.use('form', function(){
             var form = layui.form;
+            //监听提交
+            form.on('submit(submit)', function(data){
+                var tempHref = $('#beforeBtn').attr("href")
+                //单选
+                var str = "";
+                if (tempHref.endsWith("single") || tempHref.endsWith("judgement")){
+                    str = data.field.answer
+                }else if(tempHref.endsWith("multiple")){
+                    //获取复选框的值
+                    $('input[name="answer"]:checked').each(function(){
+                        str += $(this).val()
+                    })
+                }
+
+                console.log(str)
+                //Ajax
+                var reqData = {
+                    answer: str,
+                    titleId: $('#titleId').val()
+                }
+                $.ajax({
+                    type: 'post',
+                    url: '/titles/exercise/submit',
+                    data: JSON.stringify(reqData),
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res)
+                        layer.msg(res.message)
+                    }
+                })
+                return false;
+            });
 
             //监听提交
-            form.on('submit(formDemo)', function(data){
-                layer.msg(JSON.stringify(data.field));
-                window.location.href= $('#beforeBtn').attr("href");
+            form.on('submit(next)', function(data){
+                console.log(JSON.stringify(data.field));
+                window.location.href = $('#beforeBtn').attr("href");
                 return false;
             });
         });

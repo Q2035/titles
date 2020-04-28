@@ -27,7 +27,7 @@
                         <div class="layui-input-block">
                             <input type="radio" name="typeMethod" title="Only Single Choice" value="single" checked>
                             <input type="radio" name="typeMethod" title="Multiple Choice Only" value="multiple">
-                            <input type="radio" name="typeMethod" title="Only Judgment Questions" value="judgment">
+                            <input type="radio" name="typeMethod" title="Only Judgment Questions" value="judgement">
                             <input type="radio" name="typeMethod" title="Examination" value="exam">
                             <input type="radio" name="typeMethod" title="Random" value="random">
                         </div>
@@ -55,8 +55,9 @@
                     <div th:if="${session.user == null}">
                         <div class="layui-card-header" th:text="| Can I help you?|"></div>
                         <div class="layui-card-body">
-                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br>
-                            <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a>
+                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/" th:href="@{/titles/}">reselect</a><br/>
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br/>
+                            <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a><br/>
                         </div>
                     </div>
                 </div>

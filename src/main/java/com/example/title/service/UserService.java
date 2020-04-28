@@ -1,6 +1,7 @@
 package com.example.title.service;
 
 import com.example.title.exception.UsernameDuplicationException;
+import com.example.title.pojo.TitleDoneByUser;
 import com.example.title.pojo.User;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface UserService {
     void deleteUserById(Integer id);
 
     User getUserById(Integer id);
+
+//    ---------user_done-----------
+    void setUserDone(TitleDoneByUser titleDoneByUser);
 }

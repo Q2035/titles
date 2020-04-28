@@ -17,8 +17,10 @@ public interface TitleService {
 //    插入Title
     void setTitle(Title title,TitleType type);
 
+    void updateTitle(@Param("title") Title title,@Param("synopsis") String synopsis);
+
 //    通过ID获取Title
-Title getTitleById(Integer id,String synopsis);
+    Title getTitleById(Integer id,String synopsis);
 
 //    针对TitleType
     List<TitleType> getAllTitleTypes();

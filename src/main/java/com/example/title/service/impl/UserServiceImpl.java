@@ -2,6 +2,7 @@ package com.example.title.service.impl;
 
 import com.example.title.exception.UsernameDuplicationException;
 import com.example.title.mapper.UserMapper;
+import com.example.title.pojo.TitleDoneByUser;
 import com.example.title.pojo.User;
 import com.example.title.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(Integer id){
         return userMapper.getUserById(id);
+    }
+
+    @Override
+    public void setUserDone(TitleDoneByUser titleDoneByUser) {
+        userMapper.setUserDone(titleDoneByUser);
     }
 }

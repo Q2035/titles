@@ -30,6 +30,11 @@ public class TitleServiceImpl implements TitleService {
     }
 
     @Override
+    public void updateTitle(Title title, String synopsis) {
+        titleMapper.updateTitle(title,synopsis);
+    }
+
+    @Override
     public Title getTitleById(Integer id, String synopsis) {
         return titleMapper.getTitleById(id,synopsis);
     }
