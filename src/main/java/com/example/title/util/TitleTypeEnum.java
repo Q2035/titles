@@ -17,4 +17,5 @@ public enum TitleTypeEnum {
     public Integer getType() {
         return type;
     }
+
 }

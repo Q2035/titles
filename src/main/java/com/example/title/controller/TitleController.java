@@ -3,6 +3,7 @@ package com.example.title.controller;
 import com.example.title.pojo.Title;
 import com.example.title.pojo.TitleDoneByUser;
 import com.example.title.pojo.TitleType;
+import com.example.title.pojo.User;
 import com.example.title.service.TitleService;
 import com.example.title.service.UserService;
 import com.example.title.util.Code;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -135,8 +137,44 @@ public class TitleController {
     }
 
     @GetMapping("/random")
-    public String random(){
-        return "exercise";
+    public String random(HttpServletRequest request,
+                         Model model){
+        String synopsis = ifSynopsisInCookie(request);
+        if (synopsis != null) {
+            TitleType titleType = titleService.getTitleTypeBySynopsis(synopsis);
+            if (titleType == null) {
+                model.addAttribute("errorMsg","Illegal Param :" + synopsis);
+                logger.warn("Illegal Param : {} | Random",synopsis);
+                return "error/error";
+            }
+//            生成题目
+//            随机题目不需要指定类型
+            Title title = titleService.getTitleById(rand.nextInt(titleType.getTitleCount()), synopsis);
+//            判断是否需要生成选项
+//            12345 单多判考随(TitleTypeEnum)
+            switch (title.getTopicType()) {
+//                单选
+                case 1:
+                    String[] split = title.getOptions().split(";");
+                    model.addAttribute("options",split);
+                    model.addAttribute("choose",1);
+                    break;
+                    //                多选，他们都有Option
+                case 2:
+                    String[] split1 = title.getOptions().split(";");
+                    model.addAttribute("options",split1);
+                    model.addAttribute("choose",2);
+                    break;
+                default:
+                    break;
+            }
+            model.addAttribute("methodType","random");
+            model.addAttribute("titles",Arrays.asList(title));
+            return "exercise";
+        }
+        logger.warn("Not the formal way to access at {}!",request.getRemoteAddr());
+        model.addAttribute("errorMsg","No cookie information !");
+        return "error/error";
     }
 
     @ResponseBody
@@ -160,11 +198,10 @@ public class TitleController {
         if (!result.isSuccess()){
             title.setCountOfWrong(title.getCountOfWrong() + 1);
         }
-        if (session.getAttribute("user") != null) {
-//            这里插入失败明天搞
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
 //            更新用户做题信息
-            final TitleDoneByUser titleDoneByUser = new TitleDoneByUser(synopsis, title.getId(), result.isSuccess());
-            userService.setUserDone(titleDoneByUser);
+            userService.setUserDone(new TitleDoneByUser(user.getId(),synopsis, title.getId(), new Date(),result.isSuccess()));
         }
 //        更新题目信息
         titleService.updateTitle(title,synopsis);
@@ -201,15 +238,16 @@ public class TitleController {
             result.setMessage("× Wrong Answer! The correct answer is " + rightAnswer.toUpperCase());
             return result;
         }else {
+//            判断题在这里
             if (answer.equals(rightAnswer)) {
                 result.setSuccess(true);
-                result.setMessage("√ Congratulation! The correct answer is " + rightAnswer.toUpperCase());
+                result.setMessage("√ Congratulation! The correct answer is " + rightAnswer.equals("1"));
                 result.setCode(Code.SUCCESS);
                 return result;
             }
             result.setSuccess(false);
             result.setCode(Code.USER_ERROR);
-            result.setMessage("× Wrong Answer! The correct answer is " + rightAnswer.toUpperCase());
+            result.setMessage("× Wrong Answer! The correct answer is " + !rightAnswer.equals("0"));
             return result;
         }
         return result;

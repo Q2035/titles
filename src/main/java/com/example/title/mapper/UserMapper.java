@@ -34,6 +34,6 @@ public interface UserMapper {
 
 //    -----------处理user_done表-------------
 
-    @Insert("insert into user_done values(default,#{type},#{titleID},${isRight}")
+    @Insert("insert into user_done values(default,#{type},#{titleID},${isRight},#{date})")
     void setUserDone(TitleDoneByUser titleDoneByUser);
 }
