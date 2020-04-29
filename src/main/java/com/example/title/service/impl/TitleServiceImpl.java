@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Create: 27/04/2020 20:47
@@ -37,6 +38,11 @@ public class TitleServiceImpl implements TitleService {
     @Override
     public Title getTitleById(Integer id, String synopsis) {
         return titleMapper.getTitleById(id,synopsis);
+    }
+
+    @Override
+    public List<Title> getTitlesByIds(Set<Integer> set, String synopsis) {
+        return titleMapper.getTitlesByIds(set,synopsis);
     }
 
     @Override

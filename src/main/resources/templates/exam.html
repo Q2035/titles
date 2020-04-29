@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::head(~{::title})">
+    <title>Exam</title>
+</head>
+
+<body style="background-color: #F2F2F2">
+
+<div class="layui-container">
+
+    <div class="layui-row">
+        <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
+            <div class="grid-demo layui-bg-green">|</div>
+            <br />
+            <blockquote class="layui-elem-quote" id="quote">注意：1.每题1.11分；2.答题时间不可超过30分钟；3.如果你觉得页面难看，你也可以帮我完善</blockquote>
+            <br />
+            <form class="layui-form" action="">
+                <th:block th:each="title,temp:${titles}">
+                    <fieldset class="layui-elem-field">
+                        <input th:value="${title.getId()}" hidden="hidden" id="titleId"/>
+                        <a th:name="${temp.count}"></a>
+                        <legend th:text="|${temp.count}.${title.getTopicDescription()}|">字段集区块 - 默认风格</legend>
+                        <div class="layui-field-box">
+
+                            <div class="layui-form-item" th:if="${title.getTopicType() == 3}">
+                                <div class="layui-input-block" style="margin-inline: 20px;">
+                                    <input type="radio" name="answer" th:name="|answer${temp.count}|" value="1" title="true">
+                                    <input type="radio" name="answer" th:name="|answer${temp.count}|" value="0" title="false">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" th:if="${title.getTopicType() == 2}">
+                                <div class="layui-input-block" style="margin-inline: 20px;">
+                                    <div th:each="option,step:${title.getSplits()}">
+                                        <input type="checkbox" name="answer" th:name="|answer${temp.count}|" th:value="${step.count}" th:title="${option}" value="answer" title="男">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" th:if="${title.getTopicType() == 1}">
+                                <div class="layui-input-block" style="margin-inline: 20px;">
+                                    <div th:each="option,step:${title.getSplits()}">
+                                        <input type="radio" name="answer" th:name="|answer${temp.count}|" th:value="${step.count}" th:title="${option}" value="answer" title="男">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+                </th:block>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="submit" id="submit">submit</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="layui-col-xs4 layui-col-sm5 layui-col-md4">
+            <div class="grid-demo layui-bg-black">|</div>
+            <div style="padding: 20px; background-color: #F2F2F2;">
+                <div class="layui-card">
+                    <div th:if="${session.user != null}">
+                        <div class="layui-card-header" th:text="|${session.user.getUsername()} , Can I help you?|"></div>
+                        <div class="layui-card-body">
+                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/user/home" th:href="@{/titles/user/home}">home</a><br>
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/user/logout" th:href="@{/titles/user/logout}">logout</a><br>
+                        </div>
+                    </div>
+                    <div th:if="${session.user == null}">
+                        <div class="layui-card-header" th:text="| Can I help you?|"></div>
+                        <div class="layui-card-body">
+                            <i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<a href="/titles/" th:href="@{/titles/}">reselect</a><br/>
+                            <i class="layui-icon layui-icon-username"></i>&nbsp;&nbsp;<a href="/titles/login" th:href="@{/titles/login}">login</a><br/>
+                            <i class="layui-icon layui-icon-menu-fill"></i>&nbsp;&nbsp;<a href="/titles/register" th:href="@{/titles/register}">register</a><br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="site-dir">
+            <th:block th:each="title,t:${titles}">
+                <span class="layui-badge"><a href="#1" th:id="|a${t.count}|" th:href="${#strings.append('#',t.count)}" th:text="|NO.${t.count < 10 ? '0'+t.count : t.count}|">HI</a></span>
+                <br th:if="${t.count % 5 == 0}" />
+            </th:block>
+        </div>
+    </div>
+</div>
+<!--/*/<th:block th:replace="fragments :: script">/*/-->
+<!--/*/</th:block>/*/-->
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        var $ = layui.jquery;
+        //监听提交
+        form.on('submit(submit)', function(data){
+            console.log(data.field)
+            var count = 0;
+            for(var i in data.field) {
+                if(data.field.hasOwnProperty(i)) {
+                    count++;
+                }
+            }
+            if (count < 90){
+                layer.msg("They're not all done! "+count + "/90");
+                return false;
+            }
+            var str = "{";
+            var i = 1;
+            while (i <= 90) {
+                str += "answer" + i + ":";
+                $('input[name=answer'+i+']:checked').each(function () {
+                    str += $(this).val();
+                })
+                str += ",";
+                i++;
+            }
+            str += "}";
+            console.log(str)
+            //不出意外，到这里为止题目已经做完了
+            $.ajax({
+                type: 'post',
+                url: '/titles/exercise/examSubmit',
+                //SON.stringify(data.field)复选框的值不完整
+                data: JSON.stringify(str),
+                dataType: 'json',
+                success: function (res) {
+                    layer.alert(res.message);
+                    console.log(res.data);
+                    var arr = res.data;
+                    for (var i =0;i < arr.length;i++){
+                        $('#a'+arr[i]).removeClass("layui-bg-green")
+                                .addClass("layui-bg-cyan");
+                    }
+                    $('#submit').hide();
+                }
+            });
+            console.log(count)
+            return false;
+        });
+
+        //监听所有题目
+        form.on('radio',function (data) {
+            //data.value可以取得选择的数据
+            // data.elem是一个input标签
+            var temp = data.elem.name;
+            if (temp.startsWith("answer")) {
+                temp = temp.substr("answer".length,temp.length - "answer".length);
+                $('#a'+temp).addClass("layui-bg-green");
+            }
+        });
+
+        form.on('checkbox',function (data) {
+            // data.elem是一个input标签
+            var temp = data.elem.name;
+            if (temp.startsWith("answer")) {
+                temp = temp.substr("answer".length,temp.length - "answer".length);
+                $('#a'+temp).addClass("layui-bg-green");
+            }
+        });
+    });
+
+    layui.use('element', function(){
+        var element = layui.element;
+        //一些事件监听
+        element.on('tab(demo)', function(data){
+            console.log(data);
+        });
+    })
+
+    //右侧目录
+    layui.use('layer', function(){
+        //目录
+        var siteDir = $('.site-dir');
+        if(siteDir[0] && $(window).width() > 750){
+            layer.ready(function(){
+                layer.open({
+                    type: 1
+                    ,content: siteDir
+                    ,skin: 'layui-layer-dir'
+                    ,area: ['250px', '370px']
+                    ,maxHeight: $(window).height() - 100
+                    ,title: '目录'
+                    //,closeBtn: false
+                    ,offset: 'r'
+                    ,shade: false
+                    ,success: function(layero, index){
+                        layer.style(index, {
+                            marginLeft: -15
+                        });
+                    }
+                    ,end: function(){
+                        siteDir.hide();
+                    }
+                });
+            });
+            siteDir.find('li').on('click', function(){
+                var othis = $(this);
+                othis.find('a').addClass('layui-this');
+                othis.siblings().find('a').removeClass('layui-this');
+            });
+        }
+    })
+
+
+
+</script>
+</body>
+</html>

@@ -13,6 +13,17 @@ public class Title {
     private Integer countOfWrong;
     private Integer countOfDone;
 
+//   页面显示的option
+    private transient String[] splits;
+
+    public String[] getSplits() {
+        return splits;
+    }
+
+    public void setSplits(String[] splits) {
+        this.splits = splits;
+    }
+
     public Integer getTopicType() {
         return topicType;
     }

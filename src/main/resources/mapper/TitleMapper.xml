@@ -47,6 +47,14 @@
         select * from title_${synopsis} where id = #{id}
     </select>
 
+<!--    List<Title> getTitlesByIds(@Param("set") Set<Integer> set);-->
+    <select id="getTitlesByIds" resultType="Title">
+        select * from title_${synopsis} where id in
+        <foreach collection="set" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
 <!--    获取所有的TitleType-->
     <select id="getAllTitleTypes" resultType="TitleType">
         select * from title_type

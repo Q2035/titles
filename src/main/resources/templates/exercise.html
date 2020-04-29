@@ -12,7 +12,7 @@
             <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
                 <div class="grid-demo layui-bg-green">|</div>
                 <br />
-                <blockquote class="layui-elem-quote">Hello,World.</blockquote>
+                <blockquote class="layui-elem-quote" id="quote">Hello,World.</blockquote>
                 <br />
                 <form class="layui-form" action="">
                     <th:block th:each="title:${titles}">
@@ -157,6 +157,11 @@
                     dataType: 'json',
                     success: function (res) {
                         console.log(res)
+                        if (res.success){
+                            $('#quote').text("Congratulation!");
+                        }else {
+                            $('#quote').text("Regrettable.");
+                        }
                         layer.msg(res.message)
                     }
                 })

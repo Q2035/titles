@@ -5,6 +5,7 @@ import com.example.title.pojo.TitleType;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Create: 27/04/2020 20:47
@@ -21,6 +22,9 @@ public interface TitleService {
 
 //    通过ID获取Title
     Title getTitleById(Integer id,String synopsis);
+
+
+    List<Title> getTitlesByIds(Set<Integer> set,String synopsis);
 
 //    针对TitleType
     List<TitleType> getAllTitleTypes();

@@ -5,6 +5,7 @@ import com.example.title.pojo.TitleType;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Create: 27/04/2020 20:32
@@ -26,6 +27,8 @@ public interface TitleMapper {
     void updateTitle(@Param("title") Title title,@Param("synopsis") String synopsis);
 
     Title getTitleById(@Param("id") Integer id,@Param("synopsis") String synopsis);
+
+    List<Title> getTitlesByIds(@Param("set") Set<Integer> set,@Param("synopsis") String synopsis);
 
     List<TitleType> getAllTitleTypes();
 
