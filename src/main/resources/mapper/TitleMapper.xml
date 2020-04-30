@@ -34,6 +34,19 @@
               );
     </insert>
 
+<!--    更新做题错误情况-->
+    <update id="updateCountOfTitle" >
+        update title_${synopsis} set
+            count_of_done = count_of_done + 1
+        where id = #{id}
+    </update>
+
+    <update id="updateWrongCountOfTitle">
+        update title_${synopsis} set
+            count_of_wrong = count_of_wrong + 1
+        where id = #{id}
+    </update>
+
     <update id="updateTitle">
         update title_${synopsis} set
             note = #{title.note},

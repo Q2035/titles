@@ -61,4 +61,9 @@ public class UserServiceImpl implements UserService {
     public void setUserDone(TitleDoneByUser titleDoneByUser) {
         userMapper.setUserDone(titleDoneByUser);
     }
+
+    @Override
+    public List<TitleDoneByUser> getUserDone(Integer userID) {
+        return userMapper.getUserDone(userID);
+    }
 }

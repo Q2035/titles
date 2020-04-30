@@ -2,7 +2,10 @@ package com.example.title.controller;
 
 import com.example.title.exception.UsernameDuplicationException;
 import com.example.title.pojo.LoginUser;
+import com.example.title.pojo.TitleDoneByUser;
+import com.example.title.pojo.TitleType;
 import com.example.title.pojo.User;
+import com.example.title.service.TitleService;
 import com.example.title.service.UserService;
 import com.example.title.util.Code;
 import com.example.title.util.CommonResult;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 /**
  * @Create: 26/04/2020 10:55
@@ -33,12 +37,33 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TitleService titleService;
+
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private ObjectMapper mapper = new ObjectMapper();
 
     @RequestMapping("/home")
-    public String home(){
+    public String home(Model model,
+                       HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        List<TitleType> allTitleTypes = titleService.getAllTitleTypes();
+        List<TitleDoneByUser> userDone = userService.getUserDone(user.getId());
+        for (TitleDoneByUser titleDoneByUser : userDone) {
+            TitleType temp = null;
+            for (TitleType allTitleType : allTitleTypes) {
+                if (allTitleType.getSynopsis().equals(titleDoneByUser.getType())) {
+                    temp = allTitleType;
+                }
+            }
+            if (temp == null) {
+                logger.warn("error! The synopsis doesn't exist! {}",titleDoneByUser.getType());
+            }
+            titleDoneByUser.setTopicDescription(titleService.getTitleById(titleDoneByUser.getTitleID(),temp.getSynopsis()).getTopicDescription());
+        }
+        model.addAttribute("titles", userDone);
         return "user/home";
     }
 

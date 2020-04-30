@@ -24,18 +24,21 @@
                     <th>count</th>
                     <th>time</th>
                     <th>title</th>
+                    <th>isRight</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2016-11-29</td>
-                    <td>人生就像是一场修行</td>
+                <tr th:each="title,temp : ${titles}">
+                    <td th:text="${temp.count}">1</td>
+                    <td th:text="${#dates.format(title.date,'yy-MM-dd')}">2016-11-29</td>
+                    <td th:text="${title.getTopicDescription()}">人生就像是一场修行</td>
+                    <td th:text="${title.isRight()}">人生就像是一场修行</td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>2016-11-28</td>
-                    <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                    <td th:text="|...|">人生就像是一场修行</td>
+                    <td th:text="|get more...|">1</td>
+                    <td th:text="|Please contact me|">2016-11-29</td>
+                    <td><a th:href="@{https://www.hellooooo.top/}">click.</a></td>
                 </tr>
                 </tbody>
             </table>

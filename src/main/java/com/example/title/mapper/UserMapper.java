@@ -5,6 +5,7 @@ import com.example.title.pojo.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public interface UserMapper {
 
 //    -----------处理user_done表-------------
 
-    @Insert("insert into user_done values(default,#{type},#{titleID},${isRight},#{date})")
+    @Insert("insert into user_done values(default,#{type},#{titleID},${isRight},#{date},#{userID})")
     void setUserDone(TitleDoneByUser titleDoneByUser);
+
+    @Select("select * from user_done where user_id = #{userID} order by date limit 50")
+    List<TitleDoneByUser> getUserDone(Integer userID);
 }

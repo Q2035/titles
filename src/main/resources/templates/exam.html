@@ -5,7 +5,7 @@
 </head>
 
 <body style="background-color: #F2F2F2">
-
+<br />
 <div class="layui-container">
 
     <div class="layui-row">
@@ -96,7 +96,6 @@
         var $ = layui.jquery;
         //监听提交
         form.on('submit(submit)', function(data){
-            console.log(data.field)
             var count = 0;
             for(var i in data.field) {
                 if(data.field.hasOwnProperty(i)) {
@@ -118,7 +117,6 @@
                 i++;
             }
             str += "}";
-            console.log(str)
             //不出意外，到这里为止题目已经做完了
             $.ajax({
                 type: 'post',
@@ -128,7 +126,6 @@
                 dataType: 'json',
                 success: function (res) {
                     layer.alert(res.message);
-                    console.log(res.data);
                     var arr = res.data;
                     for (var i =0;i < arr.length;i++){
                         $('#a'+arr[i]).removeClass("layui-bg-green")
@@ -182,7 +179,7 @@
                     ,skin: 'layui-layer-dir'
                     ,area: ['250px', '370px']
                     ,maxHeight: $(window).height() - 100
-                    ,title: '目录'
+                    ,title: 'catalogue'
                     //,closeBtn: false
                     ,offset: 'r'
                     ,shade: false

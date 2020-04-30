@@ -24,4 +24,6 @@ public interface UserService {
 
 //    ---------user_done-----------
     void setUserDone(TitleDoneByUser titleDoneByUser);
+
+    List<TitleDoneByUser> getUserDone(Integer userID);
 }

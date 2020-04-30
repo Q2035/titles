@@ -26,6 +26,15 @@ public interface TitleMapper {
 
     void updateTitle(@Param("title") Title title,@Param("synopsis") String synopsis);
 
+    /**
+     * 更新题目错题数
+     * @param id
+     * @param synopsis
+     */
+    void updateWrongCountOfTitle(@Param("id") Integer id,@Param("synopsis") String synopsis);
+
+    void updateCountOfTitle(@Param("id")Integer id,@Param("synopsis")String synopsis);
+
     Title getTitleById(@Param("id") Integer id,@Param("synopsis") String synopsis);
 
     List<Title> getTitlesByIds(@Param("set") Set<Integer> set,@Param("synopsis") String synopsis);

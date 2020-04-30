@@ -20,9 +20,12 @@ public interface TitleService {
 
     void updateTitle(@Param("title") Title title,@Param("synopsis") String synopsis);
 
+    void updateWrongCountOfTitle(Integer id,String synopsis);
+
+    void updateCountOfTitle(Integer id,String synopsis);
+
 //    通过ID获取Title
     Title getTitleById(Integer id,String synopsis);
-
 
     List<Title> getTitlesByIds(Set<Integer> set,String synopsis);
 

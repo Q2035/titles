@@ -36,6 +36,16 @@ public class TitleServiceImpl implements TitleService {
     }
 
     @Override
+    public void updateWrongCountOfTitle(Integer id, String synopsis) {
+        titleMapper.updateWrongCountOfTitle(id,synopsis);
+    }
+
+    @Override
+    public void updateCountOfTitle(Integer id, String synopsis) {
+        titleMapper.updateCountOfTitle(id, synopsis);
+    }
+
+    @Override
     public Title getTitleById(Integer id, String synopsis) {
         return titleMapper.getTitleById(id,synopsis);
     }

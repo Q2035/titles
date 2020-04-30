@@ -26,8 +26,9 @@ import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.function.IntUnaryOperator;
-import java.util.stream.IntStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @Create: 27/04/2020 15:33
@@ -45,6 +46,8 @@ public class TitleController {
 
     private final String answerCookieName = "EXAM_ANSWER";
 
+    private final String titleIdCookieName = "TITLE_IDS";
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Random rand = new Random(System.currentTimeMillis());
@@ -54,6 +57,9 @@ public class TitleController {
     public final int SINGLE_COUNT = 60;
     public final int JUDGEMENT_COUNT = 20;
     public final int MULTIPLE_COUNT = 10;
+
+    static ExecutorService executorService = Executors.newFixedThreadPool(4);
+
 
     @GetMapping("/single")
     public String single(HttpServletRequest request,
@@ -157,20 +163,26 @@ public class TitleController {
             }
             List<Title> titles = generateExamTitles(titleType);
             StringBuffer cookieValue = new StringBuffer();
+            StringBuffer cookieTitleIDsValue = new StringBuffer();
             titles.stream().forEach(t->{
 //                单选，多选的选项处理
                 if (t.getTopicType() != TitleTypeEnum.JUDGEMENT.getType()) {
                     t.setSplits(t.getOptions().split(";"));
                 }
                 cookieValue.append("-"+t.getAnswer());
+                cookieTitleIDsValue.append("-"+t.getId());
             });
+            logger.info("{}:{}",request.getRemoteAddr(),cookieTitleIDsValue.toString().substring(0,20));
 //            还是需要将答案信息存入Cookie
             Cookie cookie = new Cookie(answerCookieName, cookieValue.toString());
 //            设置Cookie有效期为30分钟
 //            存储的是严格按照顺序排列的答案
             cookie.setMaxAge(30 * 60);
             cookie.setPath("/");
-
+            Cookie idCookie = new Cookie(titleIdCookieName, cookieTitleIDsValue.toString());
+            idCookie.setPath("/");
+            idCookie.setMaxAge(30 * 60);
+            response.addCookie(idCookie);
             response.addCookie(cookie);
             model.addAttribute("titles",titles);
             return "exam";
@@ -307,13 +319,18 @@ public class TitleController {
         CommonResult result = new CommonResult();
         String decode = URLDecoder.decode(reqAnswers, Charset.forName("utf-8"));
         String rightAns = ifCookieHas(request, answerCookieName);
+        String tempIDs = ifCookieHas(request, titleIdCookieName);
+        String synopsis = ifSynopsisInCookie(request);
 //        Cookie没有对应信息，过期了
-        if (rightAns == null) {
+        if (rightAns == null || tempIDs == null) {
             result.setSuccess(false);
             result.setCode(Code.USER_ERROR);
             result.setMessage("Sorry,TIMEOUT!");
             return result;
         }
+//        第一个元素为空
+//        这个用来存储做错的题目ID
+        List<String> wrongTitleIds = Arrays.asList(tempIDs.split("-"));
         String[] answers = rightAns.split("-");
 //        1:2,
         String[] reqAns = decode.split("answer");
@@ -322,7 +339,6 @@ public class TitleController {
             String temp;
             temp = reqAns[i].replaceAll(",","");
             temp = temp.replaceAll("}","");
-            temp = temp.replaceAll("\"","");
             afterDeal[i] = temp;
         }
 
@@ -350,6 +366,7 @@ public class TitleController {
                 if (chars.length==1 && tempChar.length == 1) {
                     if (chars[0] + 'a' - '1' == tempChar[0]) {
                         score += 1.11f;
+                        wrongTitleIds.set(i,wrongTitleIds.get(i) + "-");
                     }else {
                         errorTitle.add(i);
                     }
@@ -361,6 +378,7 @@ public class TitleController {
                 split[1].chars().map(ch -> ch + 'a' - '1');
                 if (String.valueOf(split[1]).equals(answers[i])) {
                     score += 1.11f;
+                    wrongTitleIds.set(i,wrongTitleIds.get(i) + "-");
                 }else {
                     errorTitle.add(i);
                 }
@@ -369,13 +387,48 @@ public class TitleController {
             if (i <= JUDGEMENT_COUNT + MULTIPLE_COUNT + SINGLE_COUNT) {
                 if (answers[i].equals(split[1])) {
                     score += 1.11f;
+                    wrongTitleIds.set(i,wrongTitleIds.get(i) + "-");
                 }else{
                     errorTitle.add(i);
                 }
             }
         }
+//        将试题信息异步插入数据库
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        executorService.execute(() -> {
+                    logger.info("Start inserting wrong count and user done information asynchronously.");
+                    long start = System.currentTimeMillis();
+                    wrongTitleIds.stream()
+                            .filter(str -> str.length() > 0)
+                            .forEach(str -> {
+//                        结尾不为'-'代表这个题目做错了
+                                String  s = "";
+                                boolean flag = false;
+                                if (!str.endsWith("-")) {
+                                    s = str.replaceAll("-", "");
+                                    titleService.updateWrongCountOfTitle(Integer.parseInt(s), synopsis);
+                                }else {
+                                    s = str.replaceAll("-","");
+                                    flag = true;
+                                }
+                                titleService.updateCountOfTitle(Integer.parseInt(s),synopsis);
+//                                    用户已登录
+                                if (user != null) {
+                                    userService.setUserDone(new TitleDoneByUser(user.getId(),synopsis,Integer.parseInt(s),new Date(),flag));
+                                }
+                            });
+                            logger.info("count insert end, cost: {} ms",System.currentTimeMillis() - start);
+                }
+        );
         result.setSuccess(true);
-        result.setMessage("You got "+score + "/100!");
+        if (score > 99) {
+            result.setMessage("Congratulation! You got full marks!");
+        } else if (score == 0) {
+            result.setMessage("Congratulation! 这么久了我还没见过零分的");
+        }else {
+            result.setMessage("You got "+ String.valueOf(score).substring(0,score > 10 ? 5 : 4) + "/100!");
+        }
         result.setData(errorTitle);
         result.setCode(Code.SUCCESS);
         return result;
