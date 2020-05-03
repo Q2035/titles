@@ -8,6 +8,17 @@ spring:
     password: 123456
     initialization-mode: always
     type: com.zaxxer.hikari.HikariDataSource
+    # Redis设置
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    jedis:
+      pool:
+        max-wait: 3000 #连接池最大阻塞等待时间
+        max-active: 100 #连接池最大连接数
+        max-idle: 20 # 最大空闲连接
+    timeout: 10000 # 连接超时 10s
 logging:
   file:
     path: D:\\temp\\log

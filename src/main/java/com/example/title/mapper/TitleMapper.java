@@ -39,10 +39,14 @@ public interface TitleMapper {
 
     List<Title> getTitlesByIds(@Param("set") Set<Integer> set,@Param("synopsis") String synopsis);
 
+    Title getTitleMaxCount(String synopsis);
+
     List<TitleType> getAllTitleTypes();
 
     TitleType getTitleTypeBySynopsis(String synopsis);
 
     void setTitleType(TitleType type);
+
+    void setTitleTypeMaxCount(TitleType type);
 
 }

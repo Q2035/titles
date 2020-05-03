@@ -24,6 +24,10 @@ public interface TitleService {
 
     void updateCountOfTitle(Integer id,String synopsis);
 
+    Title getTitleMaxCount(String synopsis);
+
+    void setTitleTypeMaxCount(TitleType type);
+
 //    通过ID获取Title
     Title getTitleById(Integer id,String synopsis);
 

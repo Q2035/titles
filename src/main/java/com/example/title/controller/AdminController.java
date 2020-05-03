@@ -88,6 +88,8 @@ public class AdminController {
         TitleType titleType = new TitleType();
         titleType.setSynopsis(synopsis);
         titleType.setDescription(description);
+//        短暂设置一个值，后期需要更改
+        titleType.setTitleCount(100);
         logger.info("It will create a titleType {}",titleType);
         titleService.setTitleType(titleType);
 //        假设传入的数据严格按照顺序进入(都以\t分隔)
@@ -132,6 +134,10 @@ public class AdminController {
             result.setSuccess(false);
             return result;
         }
+        Title titleMaxCount = titleService.getTitleMaxCount(synopsis);
+        TitleType titleTypeBySynopsis = titleService.getTitleTypeBySynopsis(synopsis);
+        titleTypeBySynopsis.setTitleCount(titleMaxCount.getId());
+        titleService.setTitleTypeMaxCount(titleTypeBySynopsis);
         result.setMessage("Success!");
         result.setCode(Code.SUCCESS);
         result.setSuccess(true);

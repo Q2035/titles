@@ -16,7 +16,7 @@ public class TitleType {
     private Integer titleCount;
 
     public Integer getTitleCount() {
-        return titleCount;
+        return this.titleCount;
     }
 
     public void setTitleCount(Integer titleCount) {

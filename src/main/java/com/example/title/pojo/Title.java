@@ -1,6 +1,12 @@
 package com.example.title.pojo;
 
-public class Title {
+import java.io.Serializable;
+import java.util.Arrays;
+
+public class Title implements Serializable {
+
+    private static final long serialVersionUID = 42L;
+
     private Integer id;
     private String topicDescription;
     private String options;
@@ -94,5 +100,21 @@ public class Title {
 
     public void setCountOfDone(Integer countOfDone) {
         this.countOfDone = countOfDone;
+    }
+
+    @Override
+    public String toString() {
+        return "Title{" +
+                "id=" + id +
+                ", topicDescription='" + topicDescription + '\'' +
+                ", options='" + options + '\'' +
+                ", answer='" + answer + '\'' +
+                ", topicType=" + topicType +
+                ", type='" + type + '\'' +
+                ", note='" + note + '\'' +
+                ", countOfWrong=" + countOfWrong +
+                ", countOfDone=" + countOfDone +
+                ", splits=" + Arrays.toString(splits) +
+                '}';
     }
 }

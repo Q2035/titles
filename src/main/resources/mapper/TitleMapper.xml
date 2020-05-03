@@ -68,6 +68,10 @@
         </foreach>
     </select>
 
+    <select id="getTitleMaxCount" parameterType="string" resultType="Title">
+        select * from title_${synopsis} order by id desc limit 1
+    </select>
+
 <!--    获取所有的TitleType-->
     <select id="getAllTitleTypes" resultType="TitleType">
         select * from title_type
@@ -79,7 +83,11 @@
 
 <!--    插入TitleType-->
     <insert id="setTitleType" parameterType="TitleType">
-        insert into title_type values(default,#{synopsis},#{description})
+        insert into title_type values(default,#{synopsis},#{description},#{titleCount})
     </insert>
+
+    <update id="setTitleTypeMaxCount" parameterType="TitleType">
+        update title_type set title_count = #{titleCount} where id = #{id}
+    </update>
 
 </mapper>
