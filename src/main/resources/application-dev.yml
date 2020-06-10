@@ -3,16 +3,16 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.17.132:3306/titles?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://xxx:3306/titles?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
     username: root
-    password: 123456
+    password: xxx
     initialization-mode: always
     type: com.zaxxer.hikari.HikariDataSource
     # Redis设置
   redis:
-    host: localhost
+    host: xxx
     port: 6379
-    password: 123456
+    password: xx
     jedis:
       pool:
         max-wait: 3000 #连接池最大阻塞等待时间
@@ -21,7 +21,7 @@ spring:
     timeout: 10000 # 连接超时 10s
 logging:
   file:
-    path: D:\\temp\\log
+    path: ./log
     name: title.log
   level:
     root: info
